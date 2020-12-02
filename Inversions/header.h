@@ -7,15 +7,11 @@ using namespace std;
 
 vector<int> list, list2;
 
-void Swap(int index1, int index2)
+void Swap(int& first, int& second)
 {
-	int mid = list[index1];
-	list[index1] = list[index2];
-	list[index2] = mid;
-
-	mid = list2[index1];
-	list2[index1] = list2[index2];
-	list2[index2] = mid;
+	int mid = first;
+	first = second;
+	second = mid;
 }
 
 void Sort()
@@ -27,7 +23,8 @@ void Sort()
 		{
 			if (list[j] > list[j + 1])
 			{
-				Swap(j, j + 1);
+				Swap(list[j], list[j + 1]);
+				Swap(list2[j], list2[j + 1]);
 			}
 		}
 	}
@@ -99,5 +96,45 @@ void FromInversions()
 		list2[pos] = i + 1;
 	}
 	list = list2;
+	Output();
+}
+
+void NextPermutation()
+{
+	int max = list[list.size() - 1], index = -1;
+
+	for (int i = list.size() - 2; i >= 0; --i)
+	{
+		if (list[i + 1] > max && list[i] < list[i + 1] && index == -1)
+		{
+			max = list[i + 1];
+			index = i;
+		}
+	}
+
+	if (index < 0)
+	{
+		cout << "Good)";
+		return;
+	}
+
+	int min = INT16_MAX, indexMin = list.size() - 1;
+
+	for (int j = list.size() - 1; j > index; --j)
+	{
+		if (list[j] > list[index] && list[j] < min)
+		{
+			indexMin = j;
+			min = list[j];
+		}
+	}
+
+	Swap(list[indexMin], list[index]);
+
+	vector <int> nums;
+	for (int j = index + 1; j <= index + (list.size() - index) / 2; ++j)
+	{
+		Swap(list[j], list[list.size() - j + index]);
+	}
 	Output();
 }
