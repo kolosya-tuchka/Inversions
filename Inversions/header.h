@@ -101,21 +101,21 @@ void FromInversions()
 
 void NextPermutation()
 {
-	int max = list[list.size() - 1], index = -1;
+	int max = 0, index = list.size() - 1;
 
 	for (int i = list.size() - 2; i >= 0; --i)
 	{
-		if (list[i + 1] > max && list[i] < list[i + 1] && index == -1)
+		if (list[i + 1] > max && list[i] < list[i + 1])
 		{
 			max = list[i + 1];
 			index = i;
+			break;
 		}
 	}
 
 	if (index < 0)
 	{
-		cout << "Good)";
-		return;
+		index = list[list.size() - 1];
 	}
 
 	int min = INT16_MAX, indexMin = list.size() - 1;
@@ -131,7 +131,6 @@ void NextPermutation()
 
 	Swap(list[indexMin], list[index]);
 
-	vector <int> nums;
 	for (int j = index + 1; j <= index + (list.size() - index) / 2; ++j)
 	{
 		Swap(list[j], list[list.size() - j + index]);
